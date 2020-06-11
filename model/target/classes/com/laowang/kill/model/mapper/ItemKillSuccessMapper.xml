@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laowang.kill.model.mapper.ItemKillSuccessMapper" >
+  <!--根据秒杀活动跟用户Id查询用户的抢购数量-->
+  <select id="countByKillUserId" resultType="java.lang.Integer">
+    SELECT
+        COUNT(1) AS total
+    FROM
+        item_kill_success
+    WHERE
+        user_id = #{userId}
+    AND kill_id = #{killId}
+
+    AND `status` IN (0)
+  </select>
+
+
+    <insert id="insertSelective" parameterType="com.laowang.kill.model.entity.ItemKillSuccess" >
+        insert into item_kill_success
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="code != null" >
+                code,
+            </if>
+            <if test="itemId != null" >
+                item_id,
+            </if>
+            <if test="killId != null" >
+                kill_id,
+            </if>
+            <if test="userId != null" >
+                user_id,
+            </if>
+            <if test="status != null" >
+                status,
+            </if>
+            <if test="createTime != null" >
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="code != null" >
+                #{code,jdbcType=VARCHAR},
+            </if>
+            <if test="itemId != null" >
+                #{itemId,jdbcType=INTEGER},
+            </if>
+            <if test="killId != null" >
+                #{killId,jdbcType=INTEGER},
+            </if>
+            <if test="userId != null" >
+                #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="status != null" >
+                #{status,jdbcType=TINYINT},
+            </if>
+            <if test="createTime != null" >
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="selectByCode" resultType="com.laowang.kill.model.entity.KillSuccessUserInfo">
+         SELECT
+          a.*,
+          b.user_name,
+          b.phone,
+          b.email,
+          c.name AS itemName
+        FROM item_kill_success AS a
+          LEFT JOIN user b ON b.id = a.user_id
+          LEFT JOIN item c ON c.id = a.item_id
+        WHERE a.code = #{code}
+              AND b.is_active = 1
+    </select>
+
+    <select id="selectByPrimaryKey" resultType="com.laowang.kill.model.entity.ItemKillSuccess">
+        select * from item_kill_success
+        where code = #{code,jdbcType=VARCHAR}
+    </select>
+
+    <update id="expireOrder">
+        update item_kill_success set status = -1 where code = #{code} and status = 0
+    </update>
+
+    <select id="selectExpireOrders" resultType="com.laowang.kill.model.entity.ItemKillSuccess">
+        SELECT a.*, TIMESTAMPDIFF(MINUTE,a.create_time,NOW()) AS diffTime FROM item_kill_success AS a WHERE a.status = 0
+    </select>
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

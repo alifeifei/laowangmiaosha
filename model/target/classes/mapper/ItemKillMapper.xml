@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.laowang.kill.model.mapper.ItemKillMapper" >
+    <select id="selectAll" resultType="com.laowang.kill.model.entity.ItemKill">
+        SELECT a.* ,
+        b.name ,
+        (
+        CASE WHEN (NOW() BETWEEN a.start_time AND a.end_time AND total > 0)
+        THEN 1
+        ELSE 0
+        END
+        ) AS canKill
+        FROM item_kill AS a LEFT JOIN item AS b ON a.item_id = b.id WHERE a.is_active = 1;
+    </select>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

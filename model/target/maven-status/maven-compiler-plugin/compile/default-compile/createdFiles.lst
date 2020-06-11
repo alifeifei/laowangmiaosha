@@ -1,0 +1,10 @@
+com\laowang\kill\model\mapper\ItemMapper.class
+com\laowang\kill\model\entity\User.class
+com\laowang\kill\model\mapper\RandomCodeMapper.class
+com\laowang\kill\model\entity\ItemKill.class
+com\laowang\kill\model\mapper\ItemKillMapper.class
+com\laowang\kill\model\mapper\ItemKillSuccessMapper.class
+com\laowang\kill\model\entity\ItemKillSuccess.class
+com\laowang\kill\model\entity\RandomCode.class
+com\laowang\kill\model\mapper\UserMapper.class
+com\laowang\kill\model\entity\Item.class
